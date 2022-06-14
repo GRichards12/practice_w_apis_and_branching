@@ -31,11 +31,12 @@ const App = () => {
 
     return(
     <div className="App">
-        <h1>fetch api</h1>
         {error && <p>{error}</p>}
         {/* {comic.map((xkcd)=>( */}
         <div key={comic.num}>
+            <div className="header">
             <h1>{comic.safe_title}</h1>
+            </div>
             <img src={comic.img} alt={comic.alt} />
             </div>
     </div>
