@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 
-function App() {
-  return (
+const App = () => {
+    
+    const [comic, setComic] = useState({});
+    const [error, setError] = useState(null);
+    let comicNum = Math.ceil(Math.random()*2630);
+    console.log(comicNum);
+    let comicID = 'https://xkcd.com/'+String(comicNum)+'/info.0.json';
+    useEffect(() => {
+  
+        const fetchData = async () => { try{
+        const response = await fetch(comicID ,);
+        console.log(response);
+        if(!response.ok){
+        throw new Error(response.statusText);
+        }
+        const data = await response.json();
+        setComic(data);
+        console.log(data);
+        } catch(error) {
+        console.log(error);
+        setError('Could not fetch the data');
+        }
+      };
+     fetchData();
+     // eslint-disable-next-line
+      },[]);
+
+    return(
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h1>fetch api</h1>
+        {error && <p>{error}</p>}
+        {/* {comic.map((xkcd)=>( */}
+        <div key={comic.num}>
+            <h1>{comic.safe_title}</h1>
+            <img src={comic.img} alt={comic.alt} />
+            </div>
     </div>
-  );
-}
+    )}
 
 export default App;
